@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Rose Day Vaishnavi 🌹</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    height:100vh;
+    background: radial-gradient(circle at top, #300030, #000);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    perspective:1200px;
+    color:white;
+}
+
+/* Scene */
+.scene{
+    transform-style:preserve-3d;
+    animation: float 6s ease-in-out infinite;
+    text-align:center;
+}
+
+/* Rose */
+.rose{
+    position:relative;
+    width:200px;
+    height:200px;
+    margin:auto;
+    transform-style:preserve-3d;
+    animation: spin 14s linear infinite;
+}
+
+.petal{
+    position:absolute;
+    width:120px;
+    height:120px;
+    background:linear-gradient(135deg,#ff2a6d,#b3003b);
+    border-radius:50% 50% 50% 0;
+    transform-origin:bottom right;
+    box-shadow:0 0 35px rgba(255,40,120,.9);
+    opacity:0.95;
+    animation: openPetal 4s ease forwards;
+}
+
+.petal:nth-child(1){transform:rotateY(0deg) translateZ(20px);}
+.petal:nth-child(2){transform:rotateY(60deg) translateZ(20px);}
+.petal:nth-child(3){transform:rotateY(120deg) translateZ(20px);}
+.petal:nth-child(4){transform:rotateY(180deg) translateZ(20px);}
+.petal:nth-child(5){transform:rotateY(240deg) translateZ(20px);}
+.petal:nth-child(6){transform:rotateY(300deg) translateZ(20px);}
+
+/* Center bud */
+.bud{
+    position:absolute;
+    width:50px;
+    height:50px;
+    background:radial-gradient(circle,#ff5c93,#800020);
+    border-radius:50%;
+    top:75px;
+    left:75px;
+    box-shadow:0 0 45px rgba(255,0,80,1);
+}
+
+/* Text */
+.text{
+    margin-top:40px;
+}
+
+.text h1{
+    font-size:2.3rem;
+    text-shadow:0 0 25px rgba(255,0,120,1);
+}
+
+.text p{
+    margin-top:10px;
+    font-size:1.15rem;
+    opacity:0.95;
+}
+
+.signature{
+    margin-top:20px;
+    font-size:1rem;
+    opacity:0.7;
+}
+
+/* Hearts */
+.heart{
+    position:absolute;
+    font-size:18px;
+    color:#ff4d88;
+    animation: floatUp 3s linear forwards;
+    pointer-events:none;
+}
+
+/* Animations */
+@keyframes spin{
+    from{transform:rotateY(0deg);}
+    to{transform:rotateY(360deg);}
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-20px);}
+}
+
+@keyframes openPetal{
+    from{transform:rotateY(var(--ry)) translateZ(10px) scale(0.8);}
+    to{transform:rotateY(var(--ry)) translateZ(45px) scale(1);}
+}
+
+@keyframes floatUp{
+    from{transform:translateY(0) scale(1); opacity:1;}
+    to{transform:translateY(-120px) scale(1.8); opacity:0;}
+}
+
+/* Mobile */
+@media(max-width:600px){
+    .rose{transform:scale(0.9);}
+    .text h1{font-size:1.9rem;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="scene" onclick="spawnHearts(event)">
+    <div class="rose">
+        <div class="petal" style="--ry:0deg"></div>
+        <div class="petal" style="--ry:60deg"></div>
+        <div class="petal" style="--ry:120deg"></div>
+        <div class="petal" style="--ry:180deg"></div>
+        <div class="petal" style="--ry:240deg"></div>
+        <div class="petal" style="--ry:300deg"></div>
+        <div class="bud"></div>
+    </div>
+
+    <div class="text">
+        <h1 id="title"></h1>
+        <p id="subtitle"></p>
+        <div class="signature" id="sign"></div>
+    </div>
+</div>
+
+<script>
+const titleText = "Happy Rose Day, Vaishnavi 🌹";
+const subText = "Every petal carries my feelings for you ❤️";
+const signText = "— From someone who truly cares";
+
+let i=0,j=0,k=0;
+
+function typeTitle(){
+    if(i<titleText.length){
+        title.innerHTML+=titleText[i++];
+        setTimeout(typeTitle,100);
+    }else setTimeout(typeSub,400);
+}
+function typeSub(){
+    if(j<subText.length){
+        subtitle.innerHTML+=subText[j++];
+        setTimeout(typeSub,70);
+    }else setTimeout(typeSign,400);
+}
+function typeSign(){
+    if(k<signText.length){
+        sign.innerHTML+=signText[k++];
+        setTimeout(typeSign,60);
+    }
+}
+typeTitle();
+
+/* Hearts on touch / click */
+function spawnHearts(e){
+    for(let i=0;i<6;i++){
+        const heart=document.createElement("div");
+        heart.className="heart";
+        heart.innerHTML="❤️";
+        heart.style.left=e.clientX+Math.random()*20-10+"px";
+        heart.style.top=e.clientY+"px";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),3000);
+    }
+}
+
+/* Auto floating hearts */
+setInterval(()=>{
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤️";
+    heart.style.left=Math.random()*window.innerWidth+"px";
+    heart.style.bottom="0px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),3000);
+},700);
+</script>
+
+</body>
+</html>
